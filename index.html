@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#FFF6E3" />
+<title>第二梯暑期營隊｜AI x STEAM 科技探索營</title>
+
+<!-- SEO / OG -->
+<meta name="description" content="2026/7/29–7/31 第二梯 AI x STEAM 科技探索營：三天動手玩科技，探索 AI 程式、氫能與電、自走車駕駛體驗。國小、國中、高中生皆可報名，地點：國立高雄科技大學建工校區。名額有限，額滿為止。" />
+<meta property="og:title" content="第二梯暑期營隊｜AI x STEAM 科技探索營" />
+<meta property="og:description" content="7/29–7/31 三日營隊・國小～高中・高科大建工校區。AI + 程式語言、能源探索：氫與電、自走車小小駕訓班，三天一次體驗。" />
+<meta property="og:type" content="website" />
+<meta name="robots" content="index, follow" />
+
+<!-- Favicon (inline SVG — H₂ bubble) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232154F0'/%3E%3Ccircle cx='32' cy='32' r='20' fill='%23BFE7FF' stroke='%230B0B0E' stroke-width='3'/%3E%3Ccircle cx='24' cy='24' r='5' fill='%23fff' opacity='.8'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Arial Black, sans-serif' font-size='20' font-weight='900' fill='%230B0B0E'%3EH%E2%82%82%3C/text%3E%3C/svg%3E" />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Noto+Sans+TC:wght@300;400;500;700;900&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" />
+
+<link rel="stylesheet" href="styles.css" />
+
+<style>
+  /* Loading shim — hides flash before React mounts */
+  .preboot {
+    position: fixed; inset: 0;
+    background: var(--bg, #FFF6E3);
+    display: grid; place-items: center;
+    z-index: 9999;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: rgba(0,0,0,.55);
+  }
+  .preboot.gone { opacity: 0; pointer-events: none; transition: opacity .3s ease; }
+
+  /* noscript banner */
+  .nojs {
+    padding: 24px; max-width: 720px; margin: 80px auto; text-align: center;
+    border: 2px solid #0B0B0E; border-radius: 12px; background: #FFF6E3;
+    font-family: "Noto Sans TC", system-ui, sans-serif;
+  }
+
+  /* Bundler thumbnail (offline splash) */
+  template { display: none; }
+</style>
+</head>
+<body>
+
+<noscript>
+  <div class="nojs">
+    <h2>請啟用 JavaScript 以瀏覽本頁面</h2>
+    <p>第二梯暑期營隊「AI x STEAM 科技探索營」報名頁需要 JavaScript 才能正常顯示。<br/>請於瀏覽器設定中啟用 JavaScript 後重新整理。</p>
+    <p>如需報名或洽詢，請聯絡：07-3814526 分機 15453（高科大 教育推廣中心）｜md406md406@gmail.com</p>
+  </div>
+</noscript>
+
+<div id="root"></div>
+<div id="preboot" class="preboot">BOOTING · AI×STEAM BATCH-02 ▸▸▸</div>
+
+<!-- React + Babel (production builds; no SRI to avoid CDN hash drift) -->
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+
+<!-- Tweaks shell -->
+<script type="text/babel" data-presets="env,react" src="tweaks-panel.jsx"></script>
+
+<!-- Components -->
+<script type="text/babel" data-presets="env,react" src="src/robot.jsx"></script>
+<script type="text/babel" data-presets="env,react" src="src/sections.jsx"></script>
+<script type="text/babel" data-presets="env,react" src="src/energy.jsx"></script>
+<script type="text/babel" data-presets="env,react" src="src/driving.jsx"></script>
+<script type="text/babel" data-presets="env,react" src="src/form.jsx"></script>
+<script type="text/babel" data-presets="env,react" src="src/app.jsx"></script>
+
+<script>
+  // Remove preboot once root has children
+  const tryHide = () => {
+    const root = document.getElementById('root');
+    if (root && root.children.length) {
+      document.getElementById('preboot')?.classList.add('gone');
+      setTimeout(() => document.getElementById('preboot')?.remove(), 400);
+    } else {
+      requestAnimationFrame(tryHide);
+    }
+  };
+  requestAnimationFrame(tryHide);
+
+  // Safety net: hard-hide preboot after 8 s even if mount fails
+  setTimeout(() => {
+    const pb = document.getElementById('preboot');
+    if (pb) pb.classList.add('gone');
+  }, 8000);
+</script>
+
+<!-- Bundler thumbnail for super_inline_html offline splash -->
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" style="background:#FFF6E3">
+    <g transform="translate(80, 130)">
+      <ellipse cx="120" cy="150" rx="100" ry="6" fill="rgba(11,11,14,0.18)"/>
+      <circle cx="210" cy="10" r="34" fill="#BFE7FF" stroke="#0B0B0E" stroke-width="4"/>
+      <text x="210" y="20" text-anchor="middle" font-family="Arial Black" font-size="26" font-weight="900" fill="#0B0B0E">H₂</text>
+      <rect x="20" y="50" width="200" height="80" fill="#2154F0" stroke="#0B0B0E" stroke-width="4" rx="14"/>
+      <rect x="36" y="72" width="40" height="34" fill="#fff" stroke="#0B0B0E" stroke-width="3" rx="6"/>
+      <circle cx="56" cy="89" r="8" fill="#0B0B0E"/>
+      <rect x="88" y="72" width="64" height="34" fill="#FFD23F" stroke="#0B0B0E" stroke-width="3" rx="6"/>
+      <circle cx="58" cy="138" r="22" fill="#0B0B0E"/>
+      <circle cx="58" cy="138" r="13" fill="#fff" stroke="#0B0B0E" stroke-width="2"/>
+      <circle cx="182" cy="138" r="22" fill="#0B0B0E"/>
+      <circle cx="182" cy="138" r="13" fill="#fff" stroke="#0B0B0E" stroke-width="2"/>
+    </g>
+  </svg>
+</template>
+
+</body>
+</html>
