@@ -103,7 +103,7 @@ function Footer() {
             <span className="eyebrow" style={{color: 'var(--bg)'}}>準備好了嗎？</span>
             <h3 style={{marginTop: 12}}>三天動手玩科技，<br />探索 AI、能源與駕駛體驗。</h3>
             <p style={{color: 'rgba(255,255,255,.7)', marginTop: 14, fontSize: 15}}>
-              名額有限 · 額滿為止 · 快來報名！
+              每人 NT$3,500（含每日午餐與保險費）· 名額有限 · 額滿為止！
             </p>
           </div>
           <button className="btn" onClick={() => document.getElementById('register')?.scrollIntoView({behavior: 'smooth', block: 'start'})}>
@@ -117,7 +117,7 @@ function Footer() {
             <div style={{color: 'rgba(255,255,255,.65)', fontSize: 14, lineHeight: 1.7}}>
               AI x STEAM 科技探索營<br />
               7 月 29 日（二）至 7 月 31 日（四）· 每日 08:30–16:00<br />
-              國立高雄科技大學 建工校區
+              國立高雄科技大學 建工校區<br />報名費 NT$3,500 / 人（含午餐與保險）
             </div>
           </div>
           <div>

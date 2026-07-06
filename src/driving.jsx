@@ -257,7 +257,7 @@ function DrivingSchool() {
           <div style={{ flex: '1 1 320px' }}>
             <div style={{ fontWeight: 800, fontSize: 17 }}>名額有限 · 額滿為止</div>
             <div style={{ fontSize: 14, color: 'var(--ink-2)', marginTop: 4, lineHeight: 1.6 }}>
-              國小、國中、高中生皆可報名，對科技有興趣者都歡迎。
+              每人 NT$3,500，含每日午餐與保險費。國小、國中、高中生皆可報名，對科技有興趣者都歡迎。
               報名後主辦單位將以留存的聯絡方式通知後續事項。
             </div>
           </div>
