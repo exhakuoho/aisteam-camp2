@@ -68,15 +68,15 @@ function Hero({ onRegister }) {
               border: '2px solid var(--ink)', borderRadius: 14,
               boxShadow: '4px 4px 0 rgba(0,0,0,.15)'
             }}>
-              <span style={{ fontFamily: 'var(--font-display)', fontSize: 30, color: 'var(--primary)', lineHeight: 1 }}>NT$3,500</span>
-              <span style={{ fontSize: 14.5, fontWeight: 700, lineHeight: 1.5 }}>每人・含三日課程、每日午餐與保險費</span>
+              <span style={{ fontFamily: 'var(--font-display)', fontSize: 28, color: 'var(--primary)', lineHeight: 1 }}>課程免費</span>
+              <span style={{ fontSize: 14, fontWeight: 700, lineHeight: 1.55 }}>每人僅酌收 NT$3,500<br />（三日教材設備使用費、耗材、午餐及保險費）</span>
             </div>
 
             <div className="hero-chips">
               <span className="chip solid"><span style={{ width: 6, height: 6, background: 'var(--primary)', borderRadius: '50%' }}></span> 名額有限 · 額滿為止</span>
               <span className="chip">國小 · 國中 · 高中</span>
               <span className="chip">共 3 天</span>
-              <span className="chip">含午餐與保險</span>
+              <span className="chip">課程免費・僅收基本費用</span>
               <span className="chip">AI × 能源 × 駕駛</span>
               <span className="chip">對科技有興趣者</span>
             </div>
@@ -444,8 +444,8 @@ const FAQS = [
 { q: '國小、國中、高中生都可以報名嗎？', a: '可以。本梯次開放國小生、國中生與高中生報名，只要對科技有興趣都歡迎。分組時會考量年齡與程度，讓每位學員都能參與。' },
 { q: '氫能實驗安全嗎？', a: '所有實驗皆在講師與助教指導下進行。學員操作時需配戴護目鏡，電池與導線接線由工作人員確認後才通電；燃料電池與氣體示範由講師操作、學員觀察。' },
 { q: '自走車會很難操作嗎？', a: '不會。第三天從車輛檢查、基本操作開始，先練習前進、後退、轉彎與停車，再進入繞錐與闖關任務，重點在穩定完成與團隊合作。' },
-{ q: '費用多少？包含哪些項目？', a: '每人 NT$3,500，包含三天完整課程、每日午餐與保險費，報到後不需再額外繳費。繳費方式將於錄取通知中說明。' },
-{ q: '中午吃什麼？可以告知飲食限制嗎？', a: '每日午餐由營隊提供（費用已包含在報名費中）。若學員有飲食過敏、素食或宗教飲食需求，請在報名表的「健康聲明」欄位告知，我們會協助調整。' },
+{ q: '費用多少？包含哪些項目？', a: '本營隊課程免費，不收取任何課程學費。每人僅酌收 NT$3,500，項目為：三日教材設備使用費、設備使用耗材、每日午餐及保險費，報到後不需再額外繳費。繳費方式將於錄取通知中說明。' },
+{ q: '中午吃什麼？可以告知飲食限制嗎？', a: '每日午餐由營隊提供（已包含在酌收費用中）。若學員有飲食過敏、素食或宗教飲食需求，請在報名表的「健康聲明」欄位告知，我們會協助調整。' },
 { q: '活動會拍照錄影嗎？可以選擇不公開嗎？', a: '活動會全程紀錄。報名時的「肖像權同意」欄位可以選擇「不同意公開使用」，我們會妥善處理該名學員的影像。' },
 { q: '名額滿了怎麼辦？有候補嗎？', a: '依報名順序錄取，額滿為止並保留候補名單。若有名額釋出，主辦單位會以報名留存的聯絡方式通知。其他問題歡迎來電 07-3814526 分機 15453 洽詢。' }];
 
@@ -501,9 +501,9 @@ function Orgs() {
             <span className="org-badge"><a href="mailto:md406md406@gmail.com" style={{ color: 'inherit', textDecoration: 'none' }}>md406md406@gmail.com</a></span>
           </div>
           <div className="orgs-row">
-            <div className="role">報名費用</div>
-            <span className="org-badge solid">NT$3,500 / 人</span>
-            <span className="org-badge">含每日午餐與保險費</span>
+            <div className="role">費用說明</div>
+            <span className="org-badge solid">課程免費</span>
+            <span className="org-badge">每人酌收 NT$3,500（教材設備使用費、耗材、午餐及保險費）</span>
           </div>
           <div className="orgs-row">
             <div className="role">活動地點</div>

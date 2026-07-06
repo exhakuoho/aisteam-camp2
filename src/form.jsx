@@ -384,7 +384,7 @@ function StepReview({ data, refCode }) {
         </table>
       </div>
       <div style={{marginTop: 16, padding: '14px 18px', background: 'var(--soft-1)', border: '1.5px dashed var(--ink)', borderRadius: 10, fontSize: 13, lineHeight: 1.6}}>
-        <strong>提醒：</strong>費用每人 NT$3,500（含三日課程、每日午餐與保險費）。送出後將以報名順序辦理錄取，名額有限、額滿為止，繳費方式將於錄取通知中說明。
+        <strong>提醒：</strong>課程免費，每人僅酌收 NT$3,500（三日教材設備使用費、設備耗材、午餐及保險費）。送出後將以報名順序辦理錄取，名額有限、額滿為止，繳費方式將於錄取通知中說明。
         正式錄取通知將透過您留存的聯絡方式發送，請留意來電與簡訊。
       </div>
     </>
