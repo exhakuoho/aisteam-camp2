@@ -142,7 +142,7 @@ function EnergyLab() {
       <div className="container">
         <div className="section-head">
           <div>
-            <span className="eyebrow">DAY 2 主題日 · Energy Lab</span>
+            <span className="eyebrow">DAY 1 主題日 · Energy Lab</span>
             <h2 style={{ marginTop: 14 }}>能源探索：<br /><span className="accent">氫與電。</span></h2>
           </div>
           <p>
