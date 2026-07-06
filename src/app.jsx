@@ -116,7 +116,7 @@ function Footer() {
             <div style={{fontWeight: 800, fontSize: 17, marginBottom: 12}}>第二梯 暑期營隊</div>
             <div style={{color: 'rgba(255,255,255,.65)', fontSize: 14, lineHeight: 1.7}}>
               AI x STEAM 科技探索營<br />
-              7 月 29 日（二）至 7 月 31 日（四）· 每日 08:30–16:00<br />
+              7 月 29 日（三）至 7 月 31 日（五）· 每日 08:30–16:00<br />
               國立高雄科技大學 建工校區<br />課程免費 · 酌收費用 NT$3,500 / 人
             </div>
           </div>

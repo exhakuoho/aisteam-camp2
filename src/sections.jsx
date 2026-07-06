@@ -57,7 +57,7 @@ function Hero({ onRegister }) {
               <div className="big">07.29<br />— 07.31</div>
               <div>
                 <div style={{ fontWeight: 800, fontSize: 16 }}>三日營隊</div>
-                <div className="small">7月29日（二）— 7月31日（四）<br />每日 08:30 – 16:00（08:30 報到）　|　國立高雄科技大學 建工校區</div>
+                <div className="small">7月29日（三）— 7月31日（五）<br />每日 08:30 – 16:00（08:30 報到）　|　國立高雄科技大學 建工校區</div>
               </div>
             </div>
 
@@ -258,7 +258,7 @@ function About() {
 // ─── Schedule ──────────────────────────────────────────
 const SCHEDULE = {
   d1: {
-    date: '7月 29 日 · 週二',
+    date: '7月 29 日 · 週三',
     sub: '能源探索：氫與電',
     theme: '認識氫能與電能、海水電解與能源轉換原理、基礎實驗觀察與體驗、綠色能源與永續發展。',
     rows: [
@@ -281,7 +281,7 @@ const SCHEDULE = {
 
   },
   d2: {
-    date: '7月 30 日 · 週三',
+    date: '7月 30 日 · 週四',
     sub: 'AI + 程式語言探索',
     theme: '認識 AI 是什麼、AI 與生活中的應用、程式語言基礎探索、邏輯思維與互動任務。',
     rows: [
@@ -302,7 +302,7 @@ const SCHEDULE = {
 
   },
   d3: {
-    date: '7月 31 日 · 週四',
+    date: '7月 31 日 · 週五',
     sub: '自走車小小駕訓班',
     theme: '認識自走車與基本操作、模擬環境控制與練習、闖關任務與駕駛挑戰、安全觀念學習。',
     rows: [
@@ -328,9 +328,9 @@ function Schedule() {
   const [day, setDay] = useState('d1');
   const data = SCHEDULE[day];
   const days = [
-  { id: 'd1', n: 'DAY 01', t: '氫與電', d: '7.29 週二' },
-  { id: 'd2', n: 'DAY 02', t: 'AI + 程式', d: '7.30 週三' },
-  { id: 'd3', n: 'DAY 03', t: '小小駕訓班', d: '7.31 週四' }];
+  { id: 'd1', n: 'DAY 01', t: '氫與電', d: '7.29 週三' },
+  { id: 'd2', n: 'DAY 02', t: 'AI + 程式', d: '7.30 週四' },
+  { id: 'd3', n: 'DAY 03', t: '小小駕訓班', d: '7.31 週五' }];
 
   return (
     <section id="schedule" style={{ background: 'var(--soft-1)', paddingTop: 'var(--pad-section)', paddingBottom: 'var(--pad-section)' }}>
