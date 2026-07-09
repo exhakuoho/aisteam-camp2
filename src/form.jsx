@@ -1,7 +1,7 @@
 /* global React */
 // Multi-step registration form
 
-const { useState: useStateF, useMemo: useMemoF } = React;
+const { useState: useStateF, useMemo: useMemoF, useRef: useRefF, useEffect: useEffectF } = React;
 
 // Google Apps Script Web App endpoint — receives POST, writes to sheet, emails wilson
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx9IwB6g7oSsB9TqDRQsNEapckwR1evxNtNWAsGrJlj0sWxylhkc-hXLQGD5LkrbLcXfA/exec';
@@ -14,17 +14,143 @@ const STEPS = [
   { id: 5, t: '送出確認',  en: 'REVIEW' },
 ];
 
+// 台灣身分證字號驗證（格式 + 檢查碼）
+function isValidTwId(id) {
+  if (!/^[A-Z][12]\d{8}$/.test(id)) return false;
+  const map = 'ABCDEFGHJKLMNPQRSTUVXYWZIO';
+  const n = map.indexOf(id[0]) + 10;
+  const digits = [Math.floor(n / 10), n % 10, ...id.slice(1).split('').map(Number)];
+  const weights = [1, 9, 8, 7, 6, 5, 4, 3, 2, 1, 1];
+  const sum = digits.reduce((acc, d, i) => acc + d * weights[i], 0);
+  return sum % 10 === 0;
+}
+
+// 手寫簽名板（滑鼠 + 觸控）
+function SignaturePad({ value, onChange, error }) {
+  const canvasRef = useRefF(null);
+  const drawing = useRefF(false);
+  const hasInk = useRefF(false);
+
+  useEffectF(() => {
+    const c = canvasRef.current;
+    if (!c) return;
+    const dpr = window.devicePixelRatio || 1;
+    const w = c.offsetWidth, h = 160;
+    c.width = w * dpr; c.height = h * dpr;
+    c.style.height = h + 'px';
+    const ctx = c.getContext('2d');
+    ctx.scale(dpr, dpr);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = '#16307E';
+    ctx.lineWidth = 2.5;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    // 底線提示
+    ctx.save();
+    ctx.strokeStyle = 'rgba(0,0,0,.15)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([6, 6]);
+    ctx.beginPath(); ctx.moveTo(20, h - 34); ctx.lineTo(w - 20, h - 34); ctx.stroke();
+    ctx.restore();
+  }, []);
+
+  const pos = (e) => {
+    const r = canvasRef.current.getBoundingClientRect();
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
+  };
+  const down = (e) => {
+    e.preventDefault();
+    canvasRef.current.setPointerCapture(e.pointerId);
+    drawing.current = true;
+    const ctx = canvasRef.current.getContext('2d');
+    const p = pos(e);
+    ctx.beginPath(); ctx.moveTo(p.x, p.y);
+  };
+  const move = (e) => {
+    if (!drawing.current) return;
+    e.preventDefault();
+    const ctx = canvasRef.current.getContext('2d');
+    const p = pos(e);
+    ctx.lineTo(p.x, p.y); ctx.stroke();
+    hasInk.current = true;
+  };
+  const up = (e) => {
+    if (!drawing.current) return;
+    drawing.current = false;
+    if (hasInk.current) {
+      // 縮小輸出，控制資料量（寬 320）
+      const c = canvasRef.current;
+      const out = document.createElement('canvas');
+      const scale = 320 / c.width;
+      out.width = 320; out.height = Math.round(c.height * scale);
+      const octx = out.getContext('2d');
+      octx.fillStyle = '#fff'; octx.fillRect(0, 0, out.width, out.height);
+      octx.drawImage(c, 0, 0, out.width, out.height);
+      onChange(out.toDataURL('image/jpeg', 0.8));
+    }
+  };
+  const clear = () => {
+    const c = canvasRef.current;
+    const ctx = c.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    ctx.save();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, c.width, c.height);
+    ctx.restore();
+    // 重畫底線
+    const w = c.offsetWidth, h = 160;
+    ctx.save();
+    ctx.strokeStyle = 'rgba(0,0,0,.15)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([6, 6]);
+    ctx.beginPath(); ctx.moveTo(20, h - 34); ctx.lineTo(w - 20, h - 34); ctx.stroke();
+    ctx.restore();
+    hasInk.current = false;
+    onChange('');
+  };
+
+  return (
+    <div style={{ marginBottom: 18 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 }}>
+        <label style={{ fontSize: 13.5, fontWeight: 800 }}>家長 / 監護人 親筆簽名 <span style={{ color: 'var(--accent)' }}>*</span></label>
+        <button type="button" onClick={clear} style={{
+          fontSize: 12, fontWeight: 700, padding: '4px 12px',
+          background: 'transparent', border: '1.5px solid var(--ink)', borderRadius: 8, cursor: 'pointer'
+        }}>清除重簽</button>
+      </div>
+      <canvas
+        ref={canvasRef}
+        onPointerDown={down}
+        onPointerMove={move}
+        onPointerUp={up}
+        onPointerLeave={up}
+        style={{
+          width: '100%', display: 'block',
+          border: error ? '2px solid var(--accent)' : '2px solid var(--ink)',
+          borderRadius: 12, background: '#fff',
+          touchAction: 'none', cursor: 'crosshair'
+        }} />
+      <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 6 }}>
+        請以手指（手機）或滑鼠（電腦）在框內簽名{value ? ' ✓ 已完成簽名' : ''}
+      </div>
+      {error && <div style={{ fontSize: 12, color: 'var(--accent)', fontWeight: 600, marginTop: 4 }}>! {error}</div>}
+    </div>
+  );
+}
+
 function RegForm() {
   const [step, setStep] = useStateF(1);
   const [data, setData] = useStateF({
     // 1. student
-    studentName: '', school: '', stage: '', grade: '', gender: '', birth: '',
+    studentName: '', school: '', stage: '', grade: '', gender: '', birth: '', idNumber: '',
     // 2. guardian
     parentName: '', relation: '父親', phone: '', emergency: '', email: '',
     // 3. health
     allergies: [], allergyOther: '', diet: '無', special: '',
     // 4. consent
-    photoConsent: '', termsAgree: false, signatureName: '',
+    photoConsent: '', termsAgree: false, signatureName: '', signatureImage: '',
     // misc
     notes: '',
   });
@@ -55,6 +181,8 @@ function RegForm() {
       if (!data.grade) e.grade = '請選擇年級';
       if (!data.gender) e.gender = '請選擇性別';
       if (!data.birth) e.birth = '請填寫生日';
+      if (!data.idNumber.trim()) e.idNumber = '請填寫身分證字號（保險投保用）';
+      else if (!isValidTwId(data.idNumber.trim().toUpperCase())) e.idNumber = '身分證字號格式或檢查碼不正確';
     } else if (s === 2) {
       if (!data.parentName.trim()) e.parentName = '請填寫家長姓名';
       if (!data.phone.match(/^\d{2,4}-?\d{6,8}$|^09\d{8}$/)) e.phone = '請填寫有效電話 (例 0912345678)';
@@ -64,6 +192,7 @@ function RegForm() {
       if (!data.photoConsent) e.photoConsent = '請選擇肖像權授權';
       if (!data.termsAgree) e.termsAgree = '請勾選同意活動規範';
       if (!data.signatureName.trim()) e.signatureName = '請輸入家長簽名';
+      if (!data.signatureImage) e.signatureImage = '請於簽名板親筆簽名';
     }
     setErrors(e);
     return Object.keys(e).length === 0;
@@ -97,10 +226,10 @@ function RegForm() {
     setStep(1);
     setSubmitted(false);
     setData({
-      studentName: '', school: '', stage: '', grade: '', gender: '', birth: '',
+      studentName: '', school: '', stage: '', grade: '', gender: '', birth: '', idNumber: '',
       parentName: '', relation: '父親', phone: '', emergency: '', email: '',
       allergies: [], allergyOther: '', diet: '無', special: '',
-      photoConsent: '', termsAgree: false, signatureName: '',
+      photoConsent: '', termsAgree: false, signatureName: '', signatureImage: '',
       notes: '',
     });
   };
@@ -242,6 +371,15 @@ function StepStudent({ data, set, errors }) {
           <input type="date" value={data.birth} onChange={set('birth')} />
         </Field>
       </div>
+      <Field label="身分證字號" req error={errors.idNumber} hint="營隊將為學員投保保險，身分證字號僅用於保險建檔與身分核對，不作其他用途">
+        <input
+          type="text"
+          value={data.idNumber}
+          onChange={(e) => set('idNumber')({ target: { value: e.target.value.toUpperCase() } })}
+          placeholder="例：A123456789"
+          maxLength={10}
+          style={{ fontFamily: 'var(--font-mono)', letterSpacing: '.08em' }} />
+      </Field>
     </>
   );
 }
@@ -340,9 +478,14 @@ function StepConsent({ data, set, errors }) {
       </div>
       {errors.termsAgree && <div className="err" style={{marginTop: -4, marginBottom: 14, fontSize: 12, color: 'var(--accent)', fontWeight: 600}}>! {errors.termsAgree}</div>}
 
-      <Field label="家長 / 監護人 電子簽名" req error={errors.signatureName} hint="請輸入家長 / 監護人之全名作為線上簽署">
-        <input type="text" value={data.signatureName} onChange={set('signatureName')} placeholder="輸入您的全名" style={{fontFamily: 'cursive', fontSize: 22, fontStyle: 'italic'}} />
+      <Field label="家長 / 監護人 姓名（正楷）" req error={errors.signatureName} hint="請輸入家長 / 監護人之全名">
+        <input type="text" value={data.signatureName} onChange={set('signatureName')} placeholder="輸入您的全名" style={{fontSize: 18}} />
       </Field>
+
+      <SignaturePad
+        value={data.signatureImage}
+        onChange={(v) => set('signatureImage')({ target: { value: v } })}
+        error={errors.signatureImage} />
     </>
   );
 }
@@ -354,6 +497,7 @@ function StepReview({ data, refCode }) {
     ['就讀學校', `${data.school}（${data.stage}）`],
     ['年級 / 性別', `${data.grade} · ${data.gender}`],
     ['出生年月日', data.birth],
+    ['身分證字號', data.idNumber ? data.idNumber.slice(0, 3) + '****' + data.idNumber.slice(-3) : ''],
     ['家長姓名', `${data.parentName}（${data.relation}）`],
     ['主要聯絡', data.phone],
     ['緊急聯絡', data.emergency],
@@ -362,7 +506,7 @@ function StepReview({ data, refCode }) {
     ['過敏 / 疾病', data.allergies.length ? data.allergies.join('、') : '無'],
     ['其他事項', data.special || '無'],
     ['肖像權', data.photoConsent === 'yes' ? '同意公開使用' : '僅供內部紀錄'],
-    ['家長簽名', data.signatureName],
+    ['家長簽名', data.signatureName + (data.signatureImage ? '（已親筆簽名 ✓）' : '')],
   ];
   return (
     <>
