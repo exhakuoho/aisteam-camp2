@@ -4,11 +4,12 @@
 const { useState: useSD } = React;
 
 const DRIVE_TASKS = [
-{ n: '01', name: '交通標誌認識', en: 'TRAFFIC SIGNS', task: '認識停止、轉彎、停車、行人穿越等基本標誌，先懂規則再上路。', focus: '安全觀念、規則理解', color: '#E84A5F', icon: 'sign' },
-{ n: '02', name: '直線與轉彎練習', en: 'DRIVE & TURN', task: '操作自走車完成前進、後退、轉彎與停止，練到車身穩定不蛇行。', focus: '操控穩定、方向控制', color: '#2154F0', icon: 'turn' },
-{ n: '03', name: '繞錐與定點停車', en: 'SLALOM & PARK', task: '依指定路線繞過障礙錐筒，並將車輛停在指定停車格內。', focus: '精準度、速度控制', color: '#FF8B3D', icon: 'cone' },
-{ n: '04', name: '小小駕訓闖關', en: 'MISSION RUN', task: '任務累積制：依規則完成路線、停車與安全駕駛的綜合挑戰。', focus: '路線規劃、團隊分工、臨場反應', color: '#6B4BFF', icon: 'flag' },
-{ n: '05', name: '成果分享', en: 'REFLECTION', task: '說明隊伍策略、遇到的問題與改善方式，把經驗變成能力。', focus: '表達能力、學習反思', color: '#00C896', icon: 'share' }];
+{ n: '01', name: '起點出發', en: 'START LAUNCH', task: '車輛停在起點區，聽到開始指令後由駕駛員啟動車輛前進。', focus: '油門控制、方向感', color: '#00C896', icon: 'start' },
+{ n: '02', name: '安全停等區', en: 'SAFETY STOP', task: '行經斑馬線或停等牌時，車輛需完全停下 2 秒以上再繼續前進。', focus: '煞車反應、安全概念', color: '#E84A5F', icon: 'stopsign' },
+{ n: '03', name: '轉彎挑戰', en: 'TURN CHALLENGE', task: '依指示完成指定左轉或右轉，車身不可壓到邊界線。', focus: '轉向幅度、速度控制', color: '#FF8B3D', icon: 'turn' },
+{ n: '04', name: '直線穩定行駛', en: 'STRAIGHT LINE', task: '沿著指定道路前進，盡量保持車身穩定、不蛇行。', focus: '方向微調、避免蛇行', color: '#2154F0', icon: 'straight' },
+{ n: '05', name: '停車任務', en: 'PARKING TASK', task: '自選倒車入庫或路邊停車其中一項，將車輛停入指定停車格。', focus: '空間判斷、慢速操作', color: '#6B4BFF', icon: 'park' },
+{ n: '06', name: '寶物運送', en: 'TREASURE RUN', task: '操作機械手臂夾取或推送物件，運送至指定放置區完成任務。', focus: '夾爪控制、團隊指揮', color: '#FFB100', icon: 'treasure' }];
 
 
 const AWARDS = [
@@ -24,7 +25,13 @@ const AWARDS = [
 function DriveIcon({ kind }) {
   const ink = 'var(--ink)';
   switch (kind) {
-    case 'sign':return (
+    case 'start':return (
+        <svg viewBox="0 0 28 28" width="28" height="28">
+          <circle cx="14" cy="14" r="11" fill="none" stroke={ink} strokeWidth="1.8" />
+          <polygon points="11,9 20,14 11,19" fill={ink} />
+        </svg>);
+
+    case 'stopsign':return (
         <svg viewBox="0 0 28 28" width="28" height="28">
           <polygon points="9,4 19,4 24,9 24,19 19,24 9,24 4,19 4,9" fill="#E84A5F" stroke={ink} strokeWidth="1.8" strokeLinejoin="round" />
           <rect x="8" y="11.5" width="12" height="2.5" fill="#fff" />
@@ -37,34 +44,34 @@ function DriveIcon({ kind }) {
           <polygon points="22,6 18,2.5 18,9.5" fill={ink} />
         </svg>);
 
-    case 'cone':return (
+    case 'straight':return (
         <svg viewBox="0 0 28 28" width="28" height="28">
-          <polygon points="14,4 20,22 8,22" fill="#FF8B3D" stroke={ink} strokeWidth="1.8" strokeLinejoin="round" />
-          <rect x="10.5" y="12" width="7" height="3" fill="#fff" />
-          <rect x="5" y="22" width="18" height="3" fill={ink} rx="1.5" />
+          <line x1="14" y1="24" x2="14" y2="7" stroke={ink} strokeWidth="2.4" strokeLinecap="round" strokeDasharray="4 3" />
+          <polygon points="14,3 9,10 19,10" fill={ink} />
         </svg>);
 
-    case 'flag':return (
+    case 'park':return (
         <svg viewBox="0 0 28 28" width="28" height="28">
-          <line x1="7" y1="4" x2="7" y2="24" stroke={ink} strokeWidth="2.5" strokeLinecap="round" />
-          <path d="M 7 5 L 23 5 L 19 10 L 23 15 L 7 15 Z" fill="#6B4BFF" stroke={ink} strokeWidth="1.5" strokeLinejoin="round" />
+          <rect x="4" y="4" width="20" height="20" rx="5" fill="none" stroke={ink} strokeWidth="2" />
+          <text x="14" y="19.5" textAnchor="middle" fontFamily="Archivo Black" fontSize="14" fill={ink}>P</text>
         </svg>);
 
-    case 'share':return (
+    case 'treasure':return (
         <svg viewBox="0 0 28 28" width="28" height="28">
-          <circle cx="9" cy="10" r="4" fill="#00C896" stroke={ink} strokeWidth="1.6" />
-          <circle cx="19" cy="10" r="4" fill="#fff" stroke={ink} strokeWidth="1.6" />
-          <path d="M 4 24 Q 9 17 14 24 M 14 24 Q 19 17 24 24" fill="none" stroke={ink} strokeWidth="1.8" strokeLinecap="round" />
+          <rect x="4" y="13" width="20" height="11" rx="2" fill="#FFD23F" stroke={ink} strokeWidth="1.8" />
+          <path d="M 4 13 Q 14 4 24 13" fill="none" stroke={ink} strokeWidth="1.8" />
+          <circle cx="14" cy="13.5" r="2.1" fill={ink} />
         </svg>);
 
     default:return null;
   }
 }
 
-// ─── 駕訓場地示意圖 ─────────────────────────────────────
+// ─── 駕訓場地示意圖：起點→停等→轉彎→直線→停車→寶物運送 ──
 function DrivingCourse() {
   const ink = 'var(--ink)';
   const W = 760, H = 400;
+
   const Cone = ({ x, y }) =>
   <g transform={`translate(${x},${y})`}>
       <polygon points="0,-9 6,7 -6,7" fill="#FF8B3D" stroke={ink} strokeWidth="1.4" strokeLinejoin="round" />
@@ -93,7 +100,7 @@ function DrivingCourse() {
     <svg viewBox={`0 0 ${W} ${H}`} xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: 'auto', display: 'block' }}>
       <g fontFamily="JetBrains Mono" fontSize="9" fill={ink}>
         <text x="14" y="20">▲ COURSE LAYOUT</text>
-        <text x={W - 14} y="20" textAnchor="end">小小駕訓場 · MINI DRIVING COURSE</text>
+        <text x={W - 14} y="20" textAnchor="end">小小駕駛員任務挑戰賽 · 6 STATION COURSE</text>
       </g>
 
       {/* 場地外框 */}
@@ -105,35 +112,46 @@ function DrivingCourse() {
       <path d="M 90 110 L 620 110 Q 668 110 668 158 L 668 250 Q 668 298 620 298 L 170 298"
       fill="none" stroke={ink} strokeWidth="2" strokeDasharray="8 8" strokeLinecap="round" />
 
-      {/* 起點 */}
+      {/* 01 起點出發 */}
       <g transform="translate(90, 110)">
         <rect x="-34" y="-26" width="52" height="52" fill="#00C896" stroke={ink} strokeWidth="2" rx="8" opacity=".22" />
         <text y="4" textAnchor="middle" fontFamily="Archivo Black" fontSize="11" fill={ink}>START</text>
       </g>
 
-      {/* 停止標誌（斑馬線） */}
-      <g transform="translate(320, 110)">
+      {/* 02 安全停等區（斑馬線 + 停止標誌） */}
+      <g transform="translate(280, 110)">
         {[-18, -10, -2, 6, 14].map((dx) => <rect key={dx} x={dx} y="-22" width="5" height="44" fill="#fff" stroke={ink} strokeWidth="1" />)}
         <polygon points="0,-52 9,-46 9,-34 0,-28 -9,-34 -9,-46" fill="#E84A5F" stroke={ink} strokeWidth="1.6" transform="translate(0,-4)" />
         <text x="0" y="-42" textAnchor="middle" fontFamily="Archivo Black" fontSize="6.5" fill="#fff">STOP</text>
       </g>
 
-      {/* 繞錐區 */}
-      <Cone x={470} y={100} />
-      <Cone x={520} y={122} />
-      <Cone x={570} y={100} />
+      {/* 03 轉彎挑戰（角落邊界錐筒） */}
+      <Cone x={614} y={98} />
+      <Cone x={652} y={140} />
 
-      {/* 定點停車格 */}
-      <g transform="translate(640, 204)">
-        <rect x="-2" y="-30" width="52" height="60" fill="none" stroke="#2154F0" strokeWidth="2.5" strokeDasharray="6 4" />
-        <text x="24" y="4" textAnchor="middle" fontFamily="Archivo Black" fontSize="12" fill="#2154F0">P</text>
+      {/* 04 直線穩定行駛（右側車道的車道中線） */}
+      <line x1="668" y1="170" x2="668" y2="238" stroke={ink} strokeWidth="1.5" strokeDasharray="5 5" opacity=".5" />
+
+      {/* 05 停車任務（停車格） */}
+      <g transform="translate(560, 298)">
+        <rect x="-28" y="-24" width="56" height="48" fill="none" stroke="#6B4BFF" strokeWidth="2.5" strokeDasharray="6 4" />
+        <text x="0" y="6" textAnchor="middle" fontFamily="Archivo Black" fontSize="14" fill="#6B4BFF">P</text>
       </g>
 
-      {/* 終點與自走車 */}
-      <g transform="translate(200, 298)">
-        <rect x="-30" y="-24" width="60" height="48" fill="#FFD23F" stroke={ink} strokeWidth="2" rx="8" opacity=".35" />
-        <text y="4" textAnchor="middle" fontFamily="Archivo Black" fontSize="10" fill={ink}>FINISH</text>
+      {/* 06 寶物運送（終點寶箱 + 機械手臂） */}
+      <g transform="translate(170, 298)">
+        <rect x="-32" y="-24" width="64" height="48" fill="#FFB100" stroke={ink} strokeWidth="2" rx="8" opacity=".2" />
+        {/* 寶箱 */}
+        <g transform="translate(-6,2)">
+          <rect x="-13" y="0" width="26" height="14" rx="2" fill="#FFD23F" stroke={ink} strokeWidth="1.6" />
+          <path d="M -13 0 Q 0 -9 13 0" fill="none" stroke={ink} strokeWidth="1.6" />
+          <circle cx="0" cy="0.5" r="2" fill={ink} />
+        </g>
+        {/* 機械手臂 */}
+        <path d="M 18 -18 L 26 -18 L 26 -4" fill="none" stroke={ink} strokeWidth="2.2" strokeLinecap="round" />
+        <circle cx="26" cy="-2" r="3" fill="none" stroke={ink} strokeWidth="1.8" />
       </g>
+
       {/* 小車 */}
       <g transform="translate(430, 298)">
         <rect x="-26" y="-15" width="52" height="30" fill="#2154F0" stroke={ink} strokeWidth="2" rx="7" />
@@ -146,18 +164,20 @@ function DrivingCourse() {
 
       {/* 路線方向 */}
       <g>
-        <Arrow x={200} y={110} dir="right" />
+        <Arrow x={190} y={110} dir="right" />
         <Arrow x={430} y={110} dir="right" />
-        <Arrow x={668} y={190} dir="down" />
-        <Arrow x={560} y={298} dir="left" />
-        <Arrow x={300} y={298} dir="left" />
+        <Arrow x={668} y={200} dir="down" />
+        <Arrow x={500} y={298} dir="left" />
+        <Arrow x={280} y={298} dir="left" />
       </g>
 
-      {/* 標籤 */}
-      <Badge x={320} y={186} num="01" color="#E84A5F" label="停等 2 秒" />
-      <Badge x={520} y={182} num="02" color="#FF8B3D" label="繞錐挑戰" />
-      <Badge x={590} y={352} num="03" color="#2154F0" label="定點停車" />
-      <Badge x={160} y={352} num="04" color="#00C896" label="安全抵達" />
+      {/* 六站標籤 */}
+      <Badge x={90} y={155} num="01" color="#00C896" label="起點出發" />
+      <Badge x={280} y={186} num="02" color="#E84A5F" label="停等 2 秒" />
+      <Badge x={706} y={100} num="03" color="#FF8B3D" label="轉彎挑戰" />
+      <Badge x={706} y={210} num="04" color="#2154F0" label="直線行駛" />
+      <Badge x={560} y={352} num="05" color="#6B4BFF" label="停車任務" />
+      <Badge x={170} y={352} num="06" color="#FFB100" label="寶物運送" />
     </svg>);
 
 }
@@ -168,21 +188,22 @@ function DrivingSchool() {
       <div className="container">
         <div className="section-head">
           <div>
-            <span className="eyebrow">DAY 3 壓軸 · Mini Driving School</span>
+            <span className="eyebrow">DAY 3 壓軸 · 小小駕駛員任務挑戰賽</span>
             <h2 style={{ marginTop: 14 }}>自走車<br /><span className="accent">小小駕訓班。</span></h2>
           </div>
           <p>
-            像考駕照一樣學開自走車！從車輛檢查、交通標誌、基本操作到
-            <strong>任務累積制闖關挑戰</strong>，最後在頒獎典禮上為三天的努力畫下句點。
+            像考駕照一樣學開自走車！兩人一組、跨校混編，從起點出發、安全停等、轉彎、
+            直線行駛、停車到<strong>寶物運送</strong>，每組限時 5 分鐘完成 6 站任務挑戰，
+            練習優先、競賽其次，重點是每個人都有機會親手操作。
           </p>
         </div>
 
         {/* Facts strip */}
         <div className="tour-facts">
-          <div className="fact"><div className="k">MISSIONS</div><div className="v lg">5<span className="u">大駕訓項目</span></div></div>
-          <div className="fact"><div className="k">STAGES</div><div className="v lg">2<span className="u">階段駕訓</span></div></div>
-          <div className="fact"><div className="k">SCORING</div><div className="v">任務累積制</div></div>
-          <div className="fact"><div className="k">AWARDS</div><div className="v lg">7<span className="u">項獎狀</span></div></div>
+          <div className="fact"><div className="k">STATIONS</div><div className="v lg">6<span className="u">站任務</span></div></div>
+          <div className="fact"><div className="k">TEAM</div><div className="v lg">2<span className="u">人一組</span></div></div>
+          <div className="fact"><div className="k">TIME LIMIT</div><div className="v">5 分鐘 / 組</div></div>
+          <div className="fact"><div className="k">SCORING</div><div className="v lg">100<span className="u">分制</span></div></div>
           <div className="fact"><div className="k">FOCUS</div><div className="v">安全 · 合作</div></div>
           <div className="fact"><div className="k">FINALE</div><div className="v">頒獎 + 大合照</div></div>
         </div>
@@ -192,16 +213,16 @@ function DrivingSchool() {
           <div style={{ padding: '20px 24px', borderBottom: '2px solid var(--ink)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
             <div>
               <div className="mono" style={{ fontSize: 11, color: 'var(--muted)', letterSpacing: '.1em' }}>COURSE LAYOUT · 駕訓路線</div>
-              <div style={{ fontWeight: 800, fontSize: 18, marginTop: 4 }}>停等 → 繞錐 → 停車 → 安全抵達</div>
+              <div style={{ fontWeight: 800, fontSize: 18, marginTop: 4 }}>起點 → 停等 → 轉彎 → 直線 → 停車 → 寶物運送</div>
             </div>
-            <span className="chip"><span className="chip-dot"></span> 實際路線依現場公布為準</span>
+            <span className="chip"><span className="chip-dot"></span> 可沿用微型考照場域，簡化取 6 個關卡</span>
           </div>
           <div style={{ padding: 24, background: 'var(--paper)' }}>
             <DrivingCourse />
           </div>
         </div>
 
-        {/* 5 task cards */}
+        {/* 6 task cards */}
         <div className="station-grid">
           {DRIVE_TASKS.map((s) =>
           <div className="station-card" key={s.n} style={{ '--station-color': s.color }}>
@@ -220,6 +241,61 @@ function DrivingSchool() {
               </div>
             </div>
           )}
+        </div>
+
+        {/* 評分標準 + 加扣分機制 */}
+        <div className="practice-grid" style={{ marginTop: 24 }}>
+          <div className="card" style={{ padding: 28 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', marginBottom: 6 }}>
+              <h3>評分標準（100 分）</h3>
+              <span className="mono" style={{ fontSize: 12, color: 'var(--muted)' }}>SCORING</span>
+            </div>
+            <p style={{ color: 'var(--muted)', fontSize: 13, marginBottom: 18 }}>練習優先、競賽其次，評分以安全、穩定、合作與任務完成為主，不要求速度最快。</p>
+            {[
+            { name: '任務完成度', pt: 40, desc: '每完成一個任務站給 5–8 分，依完成程度給分。', c: '#00C896' },
+            { name: '操作穩定度', pt: 20, desc: '車輛能平穩前進、轉彎、停止，少碰撞、少壓線。', c: '#2154F0' },
+            { name: '團隊合作', pt: 20, desc: '組員有分工、互相提醒、不爭吵，能共同完成任務。', c: '#6B4BFF' },
+            { name: '安全與秩序', pt: 10, desc: '遵守場地規則、不衝撞同學、不搶遙控器。', c: '#FF8B3D' },
+            { name: '創意表現', pt: 10, desc: '小組命名、口號、任務策略、車輛造型或解說表現。', c: '#FFB100' }].
+            map((r) =>
+            <div key={r.name} style={{ display: 'grid', gridTemplateColumns: '52px 1fr', gap: 14, alignItems: 'center', padding: '11px 0', borderBottom: '1.5px dashed rgba(0,0,0,.12)' }}>
+                <div style={{
+                width: 52, height: 40, borderRadius: 10,
+                background: r.c, border: '2px solid var(--ink)',
+                display: 'grid', placeItems: 'center',
+                fontFamily: 'var(--font-display)', fontSize: 15, color: '#fff'
+              }}>{r.pt}</div>
+                <div>
+                  <div style={{ fontWeight: 800, fontSize: 15 }}>{r.name}</div>
+                  <div style={{ fontSize: 12.5, color: 'var(--muted)', lineHeight: 1.55 }}>{r.desc}</div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="card" style={{ background: 'var(--ink)', color: 'var(--bg)', padding: 28 }}>
+            <div className="mono" style={{ fontSize: 11, color: 'rgba(255,255,255,.55)', letterSpacing: '.1em' }}>BONUS &amp; PENALTY · 加分與扣分</div>
+            <h3 style={{ color: 'var(--primary)', marginTop: 6, fontSize: 22 }}>加分與扣分機制</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 16 }}>
+              <div style={{ padding: '12px 14px', background: 'rgba(46,155,110,.18)', border: '2px solid #2E9B5E', borderRadius: 10 }}>
+                <strong style={{ color: '#6EE7A8' }}>加分 +5：</strong> 寶物成功放置指定區域。
+              </div>
+              <div style={{ padding: '12px 14px', background: 'rgba(232,74,95,.12)', border: '2px solid #E84A5F', borderRadius: 10 }}>
+                <strong style={{ color: '#FF9DAB' }}>扣分 −3：</strong> 車輛衝出場地（每次），持續無法控制則由老師協助復位。
+              </div>
+              <div style={{ padding: '12px 14px', background: 'rgba(232,74,95,.12)', border: '2px solid #E84A5F', borderRadius: 10 }}>
+                <strong style={{ color: '#FF9DAB' }}>扣分 −5：</strong> 高速碰撞車輛、同學或器材（每次）。
+              </div>
+              <div style={{ padding: '12px 14px', background: 'rgba(232,74,95,.12)', border: '2px solid #E84A5F', borderRadius: 10 }}>
+                <strong style={{ color: '#FF9DAB' }}>扣分 −3～−10：</strong> 組內爭執，搶遙控器、推擠或不聽指令。
+              </div>
+            </div>
+            <div style={{ marginTop: 20, padding: 14, background: 'rgba(255,255,255,.06)', borderRadius: 10, fontSize: 13, lineHeight: 1.65 }}>
+              <strong style={{ color: 'var(--primary)' }}>安全提醒：</strong>
+              行駛中不可用手碰車，卡住可舉手請老師協助復位（該關不給分但可繼續挑戰）。
+              正式挑戰前將確認電池電量、遙控連線與感測器狀況，行駛區與等待區明確分開。
+            </div>
+          </div>
         </div>
 
         {/* Awards */}
