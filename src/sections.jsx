@@ -4,7 +4,7 @@
 const { useState, useEffect, useRef, useMemo } = React;
 
 // ─── Nav ────────────────────────────────────────────────
-function Nav({ daysLeft, onJump }) {
+function Nav({ daysLeft, deadline, onJump }) {
   return (
     <nav className="nav">
       <div className="container nav-inner">
@@ -23,7 +23,7 @@ function Nav({ daysLeft, onJump }) {
           <a href="#faq" onClick={(e) => {e.preventDefault();onJump('faq');}}>FAQ</a>
           <span className="countdown-chip">
             <span className="dot"></span>
-            T-{daysLeft}d · 7.29 開營
+            {deadline.closed ? '報名已截止' : `報名倒數 ${deadline.days}d`} · T-{daysLeft}d 開營
           </span>
           <button className="btn small" onClick={() => onJump('register')}>
             立即報名 →
@@ -35,7 +35,7 @@ function Nav({ daysLeft, onJump }) {
 }
 
 // ─── Hero ───────────────────────────────────────────────
-function Hero({ onRegister }) {
+function Hero({ deadline, onRegister }) {
   return (
     <section className="hero" id="top">
       <div className="container">
@@ -57,7 +57,7 @@ function Hero({ onRegister }) {
               <div className="big">07.29<br />— 07.31</div>
               <div>
                 <div style={{ fontWeight: 800, fontSize: 16 }}>三日營隊</div>
-                <div className="small">7月29日（三）— 7月31日（五）<br />每日 08:30 – 16:00（08:30 報到）　|　國立高雄科技大學 建工校區</div>
+                <div className="small">7月29日（三）— 7月31日（五）<br />每日 08:30 – 16:00（08:30 報到）　|　國立高雄科技大學 建工校區<br /><strong>報名截止：7月22日（三）</strong></div>
               </div>
             </div>
 
@@ -73,6 +73,11 @@ function Hero({ onRegister }) {
             </div>
 
             <div className="hero-chips">
+              <span className="chip solid"><span style={{ width: 6, height: 6, background: 'var(--accent)', borderRadius: '50%' }}></span>
+                {deadline.closed
+                ? '報名已截止'
+                : `報名截止 7/22（三）· 倒數 ${deadline.days} 天`}
+              </span>
               <span className="chip solid"><span style={{ width: 6, height: 6, background: 'var(--primary)', borderRadius: '50%' }}></span> 名額有限 · 額滿為止</span>
               <span className="chip">國小 · 國中 · 高中</span>
               <span className="chip">共 3 天</span>
@@ -447,6 +452,7 @@ const FAQS = [
 { q: '費用多少？包含哪些項目？', a: '本營隊課程免費，不收取任何課程學費。每人僅酌收 NT$3,500，項目為：三日教材設備使用費、設備使用耗材、每日午餐及保險費，報到後不需再額外繳費。繳費方式將於錄取通知中說明。' },
 { q: '中午吃什麼？可以告知飲食限制嗎？', a: '每日午餐由營隊提供（已包含在酌收費用中）。若學員有飲食過敏、素食或宗教飲食需求，請在報名表的「健康聲明」欄位告知，我們會協助調整。' },
 { q: '活動會拍照錄影嗎？可以選擇不公開嗎？', a: '活動會全程紀錄。報名時的「肖像權同意」欄位可以選擇「不同意公開使用」，我們會妥善處理該名學員的影像。' },
+{ q: '報名到什麼時候截止？', a: '報名將於 115年7月22日（星期三）截止，額滿為止。因需辦理保險與教材準備，逾期恕不受理，請及早完成報名。' },
 { q: '名額滿了怎麼辦？有候補嗎？', a: '依報名順序錄取，額滿為止並保留候補名單。若有名額釋出，主辦單位會以報名留存的聯絡方式通知。其他問題歡迎來電 07-3814526 分機 15453 洽詢。' }];
 
 
@@ -458,7 +464,7 @@ function FAQ() {
         <div className="section-head">
           <div>
             <span className="eyebrow">常見問題 · FAQ</span>
-            <h2 style={{ marginTop: 14 }}>家長最常問的<br /><span className="accent">八個問題。</span></h2>
+            <h2 style={{ marginTop: 14 }}>家長最常問的<br /><span className="accent">九個問題。</span></h2>
           </div>
           <p>還有其他疑問？歡迎透過下方聯絡資訊與我們聯繫。</p>
         </div>
@@ -491,6 +497,11 @@ function Orgs() {
           <p>掃描報名 QR Code 或使用本頁報名表單，額滿為止。任何問題歡迎來電或來信。</p>
         </div>
         <div className="orgs">
+          <div className="orgs-row">
+            <div className="role">報名截止</div>
+            <span className="org-badge solid">7/22（三）</span>
+            <span className="org-badge">115年7月22日截止，額滿為止，逾期恕不受理</span>
+          </div>
           <div className="orgs-row">
             <div className="role">洽詢電話</div>
             <span className="org-badge solid">07-3814526 分機 15453</span>

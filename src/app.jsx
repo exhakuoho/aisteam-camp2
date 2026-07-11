@@ -28,6 +28,15 @@ function App() {
     return diff;
   })();
 
+  // Registration deadline — 2026/7/22（三）23:59
+  const deadline = (() => {
+    const due = new Date('2026-07-22T23:59:59+08:00');
+    const now = new Date();
+    const closed = now > due;
+    const days = Math.max(0, Math.ceil((due - now) / 86400000));
+    return { days, closed };
+  })();
+
   const jump = (id) => {
     if (id === 'top') window.scrollTo({ top: 0, behavior: 'smooth' });
     else document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -35,8 +44,8 @@ function App() {
 
   return (
     <>
-      <Nav daysLeft={daysLeft} onJump={jump} />
-      <Hero onRegister={() => jump('register')} />
+      <Nav daysLeft={daysLeft} deadline={deadline} onJump={jump} />
+      <Hero deadline={deadline} onRegister={() => jump('register')} />
       <Highlights />
       <About />
       <Schedule />
@@ -103,7 +112,8 @@ function Footer() {
             <span className="eyebrow" style={{color: 'var(--bg)'}}>準備好了嗎？</span>
             <h3 style={{marginTop: 12}}>三天動手玩科技，<br />探索 AI、能源與駕駛體驗。</h3>
             <p style={{color: 'rgba(255,255,255,.7)', marginTop: 14, fontSize: 15}}>
-              課程免費 · 每人僅酌收 NT$3,500（教材設備、耗材、午餐及保險）· 名額有限！
+              課程免費 · 每人僅酌收 NT$3,500（教材設備、耗材、午餐及保險）· 名額有限！<br />
+              報名截止：7/22（三），逾期恕不受理。
             </p>
           </div>
           <button className="btn" onClick={() => document.getElementById('register')?.scrollIntoView({behavior: 'smooth', block: 'start'})}>
@@ -117,7 +127,8 @@ function Footer() {
             <div style={{color: 'rgba(255,255,255,.65)', fontSize: 14, lineHeight: 1.7}}>
               AI x STEAM 科技探索營<br />
               7 月 29 日（三）至 7 月 31 日（五）· 每日 08:30–16:00<br />
-              國立高雄科技大學 建工校區<br />課程免費 · 酌收費用 NT$3,500 / 人
+              國立高雄科技大學 建工校區<br />課程免費 · 酌收費用 NT$3,500 / 人<br />
+              <strong style={{color: 'var(--primary)'}}>報名截止：7/22（三）</strong>
             </div>
           </div>
           <div>
